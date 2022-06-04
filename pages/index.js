@@ -75,6 +75,7 @@ function App() {
   // }, [resultUrl]);
 
   function getShortenedURL() {
+    setResultUrl("Generating...")
     fetch("./api/url/add", {
       method: "PUT",
       headers: {
