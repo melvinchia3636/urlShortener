@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import copy from "copy-to-clipboard";
 
 async function getIcons(url) {
   const response = await axios(
@@ -61,6 +62,7 @@ function App() {
   const [resultIcons, setResultIcons] = useState([]);
   const [url, setUrl] = useState("");
   const [resultUrl, setResultUrl] = useState("");
+  const [copied, setCopied] = useState(false);
 
   // useEffect(() => {
   //   setIcons([]);
@@ -199,13 +201,17 @@ function App() {
         >
           <button
             type="button"
-            onClick={getShortenedURL}
+            onClick={() => {
+              copy(resultUrl);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
             style={{
               clipPath: "polygon(35% 0%, 100% 0%, 100% 100%, 1.6% 100%)",
             }}
             className="bg-yellow-400 h-16 w-28 flex items-center justify-center pl-4 pt-0.5 font-medium"
           >
-            COPY
+            {copied ? "COPIED" : "COPY"}
           </button>
         </div>
       </div>
