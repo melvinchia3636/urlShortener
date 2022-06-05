@@ -77,7 +77,7 @@ function App() {
   // }, [resultUrl]);
 
   function getShortenedURL() {
-    setResultUrl("Generating...")
+    setResultUrl("Generating...");
     fetch("./api/url/add", {
       method: "PUT",
       headers: {
@@ -99,7 +99,7 @@ function App() {
   }
 
   return (
-    <div className="bg-zinc-800 w-full h-screen flex flex-col items-center justify-center font-['Jetbrains_Mono']">
+    <div className="bg-zinc-800 w-full h-screen flex flex-col items-center justify-center font-['Jetbrains_Mono'] px-8">
       <h1 className="text-yellow-400 text-3xl mb-8 flex items-center gap-4">
         <Icon
           icon="uil:link"
@@ -107,7 +107,7 @@ function App() {
         />
         URL SHORTENER
       </h1>
-      <div className="flex">
+      <div className="hidden md:flex">
         <div
           style={{
             clipPath: "polygon(0 0, 100% 0, 93.1% 100%, 0% 100%)",
@@ -134,8 +134,8 @@ function App() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               type="text"
-              className="bg-transparent flex-1 text-yellow-400 placeholder-slate-400 mr-8 focus:outline-none"
-              placeholder="https://somewebsite.com"
+              className="bg-transparent flex-1 text-yellow-400 placeholder-zinc-600 mr-8 focus:outline-none"
+              placeholder="https://somewebsite.com/this-is-a-long-url/123456789"
             />
           </div>
         </div>
@@ -160,8 +160,41 @@ function App() {
           </button>
         </div>
       </div>
+      <div className="flex flex-col md:hidden gap-3 w-full">
+        <div className="border-2 border-yellow-400 bg-yellow-400">
+          <div className="bg-zinc-800 px-4 h-16 w-full flex items-center justify-center gap-3">
+            {icons[0] ? (
+              <img src={icons[0]} className="h-7 w-7" />
+            ) : (
+              <div className="w-7 h-7 flex items-center justify-center">
+                <Icon
+                  icon="uil:link"
+                  className="w-6 h-6 text-yellow-400 stroke-[0.4px] stroke-yellow-400"
+                />
+              </div>
+            )}
+            <input
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              type="text"
+              className="bg-transparent flex-1 text-yellow-400 placeholder-zinc-600 mr-8 focus:outline-none"
+              placeholder="https://somewebsite.com/this-is-a-long-url/123456789"
+            />
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={getShortenedURL}
+          className="bg-yellow-400 h-16 flex items-center justify-center"
+        >
+          <Icon
+            icon="uil:arrow-right"
+            className="w-8 h-8 ml-4 text-zinc-800 stroke-[0.3px] stroke-yellow-400 mt-0.5"
+          />
+        </button>
+      </div>
       <h2 className="text-yellow-400 mt-8 text-xl">SHORTENED URL</h2>
-      <div className="flex mt-3">
+      <div className="mt-3 hidden md:flex">
         <div
           style={{
             clipPath: "polygon(0 0, 100% 0, 93.1% 100%, 0% 100%)",
@@ -188,7 +221,7 @@ function App() {
               disabled
               value={resultUrl}
               type="text"
-              className="bg-transparent flex-1 text-yellow-400 placeholder-slate-400 mr-8 focus:outline-none"
+              className="bg-transparent flex-1 text-yellow-400 placeholder-zinc-600 mr-8 focus:outline-none"
               placeholder="https://url.thecodeblog.net/pte2w6z6fka"
             />
           </div>
@@ -214,6 +247,35 @@ function App() {
             {copied ? "COPIED" : "COPY"}
           </button>
         </div>
+      </div>
+      <div className="bg-zinc-800 border-2 mt-3 border-yellow-400 px-4 h-16 w-full items-center justify-center gap-3 flex md:hidden">
+        {icons[0] ? (
+          <img src={icons[0]} className="h-7 w-7" />
+        ) : (
+          <div className="w-7 h-7 flex items-center justify-center">
+            <Icon
+              icon="uil:copy"
+              className="w-6 h-6 text-yellow-400 stroke-[0.4px] stroke-yellow-400"
+            />
+          </div>
+        )}
+        <input
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          type="text"
+          className="bg-transparent flex-1 text-yellow-400 placeholder-zinc-600 mr-8 min-w-0 focus:outline-none"
+          placeholder="https://url.thecodeblog.net/pte2w6z6fka"
+        />
+        <button
+          onClick={() => {
+            copy(resultUrl);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+          }}
+          className="text-yellow-400"
+        >
+          {copied ? "COPIED" : "COPY"}
+        </button>
       </div>
     </div>
   );
