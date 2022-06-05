@@ -77,25 +77,27 @@ function App() {
   // }, [resultUrl]);
 
   function getShortenedURL() {
-    setResultUrl("Generating...");
-    fetch("./api/url/add", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          res.json().then((json) => {
-            setUrl("");
-            setResultUrl(json.shortUrl);
-          });
-        }
+    if (url) {
+      setResultUrl("Generating...");
+      fetch("./api/url/add", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
       })
-      .catch((err) => {
-        console.error(err);
-      });
+        .then((res) => {
+          if (res.ok) {
+            res.json().then((json) => {
+              setUrl("");
+              setResultUrl(json.shortUrl);
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }
 
   return (
@@ -276,6 +278,18 @@ function App() {
         >
           {copied ? "COPIED" : "COPY"}
         </button>
+      </div>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-yellow-400">
+        Created with 💖 by{" "}
+        <a
+          href="https://thecodeblog.net"
+          target="_blank"
+          rel="noreferrer"
+          className="underline"
+        >
+          Melvin Chia
+        </a>
+        . Project under MIT license.
       </div>
     </div>
   );
