@@ -16,6 +16,8 @@ export async function getServerSideProps({ res, params }) {
     res.statusCode = 404
   }
 
+  db.close();
+
   return {props: {}}
 }
 
